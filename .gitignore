@@ -1,0 +1,53 @@
+# Visual Studio
+.vs/
+bin/
+obj/
+*.user
+*.suo
+*.userprefs
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+
+# Temporary files
+*.tmp
+*.log
+*.bak
+*_i.c
+*_p.c
+*_h.h
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.err
+*.exp
+*.lib
+
+# Environment config (optional, keeping development/local out is good practice, but standard appsettings.json usually stays)
+appsettings.Development.json
+appsettings.Local.json
+
+# VS Code
+.vscode/
+
+# Other
+Thumbs.db
+.DS_Store
