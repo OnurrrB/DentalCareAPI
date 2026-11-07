@@ -1,6 +1,75 @@
-@DentalCareAPI_HostAddress = http://localhost:5161
+@host = http://localhost:5161
+@token = paste-the-access-token-here
 
-GET {{DentalCareAPI_HostAddress}}/weatherforecast/
-Accept: application/json
+### Register
+POST {{host}}/api/auth/register
+Content-Type: application/json
 
-###
+{
+  "email": "demo@example.com",
+  "password": "correct-horse-battery",
+  "name": "Demo User",
+  "age": 30,
+  "gender": "Unspecified",
+  "isSmoker": false,
+  "isAlcoholUser": false,
+  "hasOrthodontic": false,
+  "isBruxism": false
+}
+
+### Log in
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "demo@example.com",
+  "password": "correct-horse-battery"
+}
+
+### Read your profile
+GET {{host}}/api/users/me
+Authorization: Bearer {{token}}
+
+### Create an alarm
+POST {{host}}/api/alarms
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "time": "07:30:00",
+  "repeatMonday": true,
+  "repeatFriday": true,
+  "isActive": true,
+  "label": "Morning brush"
+}
+
+### List your alarms
+GET {{host}}/api/alarms
+Authorization: Bearer {{token}}
+
+### Log a brushing session
+POST {{host}}/api/brush-logs
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "brushedAt": "2026-11-07T08:00:00+03:00",
+  "durationInSeconds": 120,
+  "notes": "After breakfast"
+}
+
+### Read your brushing history
+GET {{host}}/api/brush-logs?page=1&pageSize=20
+Authorization: Bearer {{token}}
+
+### Change the language
+PUT {{host}}/api/settings
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "language": "tr"
+}
+
+### Tips are public
+GET {{host}}/api/tips
