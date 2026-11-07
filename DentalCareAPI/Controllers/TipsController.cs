@@ -1,10 +1,12 @@
 using DentalCareAPI.DTOs;
 using DentalCareAPI.Interfaces;
 using DentalCareAPI.Mappings;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DentalCareAPI.Controllers;
 
+[AllowAnonymous]
 [ApiController]
 [Route("api/tips")]
 public class TipsController : ControllerBase

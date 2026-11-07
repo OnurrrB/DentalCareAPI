@@ -14,9 +14,9 @@ public class BrushLogRepository : IBrushLogRepository
         _context = context;
     }
 
-    public async Task<BrushLog?> GetBrushLogByIdAsync(int id)
+    public async Task<BrushLog?> GetBrushLogByIdAsync(int id, int userId)
     {
-        return await _context.BrushLogs.AsNoTracking().FirstOrDefaultAsync(b => b.Id == id);
+        return await _context.BrushLogs.AsNoTracking().FirstOrDefaultAsync(b => b.Id == id && b.UserId == userId);
     }
 
     public async Task<(IReadOnlyList<BrushLog> Items, int TotalCount)> GetBrushLogsByUserIdAsync(
@@ -41,9 +41,9 @@ public class BrushLogRepository : IBrushLogRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<bool> DeleteBrushLogAsync(int id)
+    public async Task<bool> DeleteBrushLogAsync(int id, int userId)
     {
-        var deleted = await _context.BrushLogs.Where(b => b.Id == id).ExecuteDeleteAsync();
+        var deleted = await _context.BrushLogs.Where(b => b.Id == id && b.UserId == userId).ExecuteDeleteAsync();
         return deleted > 0;
     }
 }

@@ -1,0 +1,7 @@
+namespace DentalCareAPI.DTOs;
+
+public class RegisterDto : UserUpdateDto
+{
+    public string Email { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
+}

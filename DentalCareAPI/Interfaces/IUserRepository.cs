@@ -1,13 +1,12 @@
 using DentalCareAPI.Entities;
 
-namespace DentalCareAPI.Interfaces
+namespace DentalCareAPI.Interfaces;
+
+public interface IUserRepository
 {
-    public interface IUserRepository
-    {
-        Task<User?> GetUserByIdAsync(int id);
-        Task<IReadOnlyList<User>> GetAllUsersAsync();
-        Task AddUserAsync(User user);
-        Task UpdateUserAsync(User user);
-        Task<bool> DeleteUserAsync(int id);
-    }
+    Task<User?> GetUserByIdAsync(int id);
+    Task<User?> GetUserByEmailAsync(string email);
+    Task AddUserAsync(User user);
+    Task UpdateUserAsync(User user);
+    Task<bool> DeleteUserAsync(int id);
 }

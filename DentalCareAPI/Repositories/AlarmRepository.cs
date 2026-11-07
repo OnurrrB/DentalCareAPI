@@ -14,9 +14,9 @@ public class AlarmRepository : IAlarmRepository
         _context = context;
     }
 
-    public async Task<Alarm?> GetAlarmByIdAsync(int id)
+    public async Task<Alarm?> GetAlarmByIdAsync(int id, int userId)
     {
-        return await _context.Alarms.FirstOrDefaultAsync(a => a.Id == id);
+        return await _context.Alarms.FirstOrDefaultAsync(a => a.Id == id && a.UserId == userId);
     }
 
     public async Task<IReadOnlyList<Alarm>> GetAlarmsByUserIdAsync(int userId)
@@ -39,9 +39,9 @@ public class AlarmRepository : IAlarmRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<bool> DeleteAlarmAsync(int id)
+    public async Task<bool> DeleteAlarmAsync(int id, int userId)
     {
-        var deleted = await _context.Alarms.Where(a => a.Id == id).ExecuteDeleteAsync();
+        var deleted = await _context.Alarms.Where(a => a.Id == id && a.UserId == userId).ExecuteDeleteAsync();
         return deleted > 0;
     }
 }
