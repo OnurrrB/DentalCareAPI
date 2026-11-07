@@ -1,9 +1,7 @@
-﻿using AutoMapper;
 using DentalCareAPI.DTOs;
 using DentalCareAPI.Entities;
 using DentalCareAPI.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace DentalCareAPI.Controllers
 {
@@ -12,12 +10,10 @@ namespace DentalCareAPI.Controllers
     public class SettingController : ControllerBase
     {
         private readonly ISettingRepository _settingRepository;
-        private readonly IMapper _mapper;
 
-        public SettingController(ISettingRepository settingRepository, IMapper mapper)
+        public SettingController(ISettingRepository settingRepository)
         {
             _settingRepository = settingRepository;
-            _mapper = mapper;
         }
 
         // POST: api/setting
@@ -28,7 +24,7 @@ namespace DentalCareAPI.Controllers
 
             if (existingSetting == null)
             {
-                var setting = _mapper.Map<Setting>(dto);
+                var setting = new Setting { UserId = dto.UserId, Language = dto.Language };
                 await _settingRepository.AddSettingAsync(setting);
                 return CreatedAtAction(nameof(GetSetting), new { userId = setting.UserId }, setting);
             }

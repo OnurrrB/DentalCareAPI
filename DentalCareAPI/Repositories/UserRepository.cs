@@ -1,4 +1,5 @@
-﻿using DentalCareAPI.Entities;
+using DentalCareAPI.Data;
+using DentalCareAPI.Entities;
 using DentalCareAPI.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,14 +7,14 @@ namespace DentalCareAPI.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly AppDbContext.AppDbContext _context;
+        private readonly AppDbContext _context;
 
-        public UserRepository(AppDbContext.AppDbContext context)
+        public UserRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        public async Task<User> GetUserByIdAsync(int id)
+        public async Task<User?> GetUserByIdAsync(int id)
         {
             return await _context.Users.FindAsync(id);
         }

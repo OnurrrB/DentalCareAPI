@@ -1,21 +1,20 @@
-﻿using DentalCareAPI.Entities;
+using DentalCareAPI.Data;
+using DentalCareAPI.Entities;
 using DentalCareAPI.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace DentalCareAPI.Repositories
 {
     public class AlarmRepository : IAlarmRepository
     {
-        private readonly AppDbContext.AppDbContext _context;
+        private readonly AppDbContext _context;
 
-        public AlarmRepository(AppDbContext.AppDbContext context)
+        public AlarmRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        public async Task<Alarm> GetAlarmByIdAsync(int id)
+        public async Task<Alarm?> GetAlarmByIdAsync(int id)
         {
             return await _context.Alarms.FindAsync(id);
         }

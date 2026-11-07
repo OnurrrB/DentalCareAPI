@@ -1,21 +1,20 @@
-﻿using AutoMapper;
 using DentalCareAPI.DTOs;
 using DentalCareAPI.Entities;
 using DentalCareAPI.Interfaces;
+using DentalCareAPI.Mappings;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+
+namespace DentalCareAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 public class AlarmController : ControllerBase
 {
     private readonly IAlarmRepository _alarmRepository;
-    private readonly IMapper _mapper;
 
-    public AlarmController(IAlarmRepository alarmRepository, IMapper mapper)
+    public AlarmController(IAlarmRepository alarmRepository)
     {
         _alarmRepository = alarmRepository;
-        _mapper = mapper;
     }
 
     [HttpPost]
@@ -24,12 +23,10 @@ public class AlarmController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var alarmEntity = _mapper.Map<Alarm>(alarmCreateDto);
+        var alarmEntity = alarmCreateDto.ToEntity();
 
         await _alarmRepository.AddAlarmAsync(alarmEntity);
 
-        // Eğer AddAlarmAsync ID'yi set etmiyorsa, ekleme sonrası ID almayı garanti et
-        // Örnek: alarmEntity.Id = ...
 
         return CreatedAtAction(nameof(GetAlarmById), new { id = alarmEntity.Id }, alarmEntity);
     }
@@ -57,7 +54,7 @@ public class AlarmController : ControllerBase
         if (id != alarmUpdateDto.UserId)
             return BadRequest("Id mismatch");
 
-        var alarmEntity = _mapper.Map<Alarm>(alarmUpdateDto);
+        var alarmEntity = alarmUpdateDto.ToEntity();
 
         await _alarmRepository.UpdateAlarmAsync(alarmEntity);
 

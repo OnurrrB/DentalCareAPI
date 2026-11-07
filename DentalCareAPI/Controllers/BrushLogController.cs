@@ -1,9 +1,8 @@
-﻿using AutoMapper;
 using DentalCareAPI.DTOs;
 using DentalCareAPI.Entities;
 using DentalCareAPI.Interfaces;
+using DentalCareAPI.Mappings;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace DentalCareAPI.Controllers
 {
@@ -12,19 +11,17 @@ namespace DentalCareAPI.Controllers
     public class BrushLogController : ControllerBase
     {
         private readonly IBrushLogRepository _brushLogRepository;
-        private readonly IMapper _mapper;
 
-        public BrushLogController(IBrushLogRepository brushLogRepository, IMapper mapper)
+        public BrushLogController(IBrushLogRepository brushLogRepository)
         {
             _brushLogRepository = brushLogRepository;
-            _mapper = mapper;
         }
 
         // POST: api/brushlog
         [HttpPost]
         public async Task<IActionResult> CreateBrushLog([FromBody] BrushLogCreateDto dto)
         {
-            var brushLog = _mapper.Map<BrushLog>(dto);
+            var brushLog = dto.ToEntity();
             await _brushLogRepository.AddBrushLogAsync(brushLog);
 
             return CreatedAtAction(nameof(GetBrushLogById), new { id = brushLog.Id }, brushLog);

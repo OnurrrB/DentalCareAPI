@@ -1,20 +1,20 @@
-﻿using DentalCareAPI.Entities;
+using DentalCareAPI.Data;
+using DentalCareAPI.Entities;
 using DentalCareAPI.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace DentalCareAPI.Repositories
 {
     public class SettingRepository : ISettingRepository
     {
-        private readonly AppDbContext.AppDbContext _context;
+        private readonly AppDbContext _context;
 
-        public SettingRepository(AppDbContext.AppDbContext context)
+        public SettingRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        public async Task<Setting> GetSettingByUserIdAsync(int userId)
+        public async Task<Setting?> GetSettingByUserIdAsync(int userId)
         {
             return await _context.Settings.FirstOrDefaultAsync(s => s.UserId == userId);
         }

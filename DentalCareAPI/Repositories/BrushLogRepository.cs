@@ -1,21 +1,20 @@
-﻿using DentalCareAPI.Entities;
+using DentalCareAPI.Data;
+using DentalCareAPI.Entities;
 using DentalCareAPI.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace DentalCareAPI.Repositories
 {
     public class BrushLogRepository : IBrushLogRepository
     {
-        private readonly AppDbContext.AppDbContext _context;
+        private readonly AppDbContext _context;
 
-        public BrushLogRepository(AppDbContext.AppDbContext context)
+        public BrushLogRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        public async Task<BrushLog> GetBrushLogByIdAsync(int id)
+        public async Task<BrushLog?> GetBrushLogByIdAsync(int id)
         {
             return await _context.BrushLogs.FindAsync(id);
         }

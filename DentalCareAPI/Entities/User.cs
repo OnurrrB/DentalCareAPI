@@ -1,22 +1,20 @@
-﻿namespace DentalCareAPI.Entities
+namespace DentalCareAPI.Entities;
+
+public class User
 {
-    public class User
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int Age { get; set; }
-        public string Gender { get; set; }
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public int Age { get; set; }
+    public string Gender { get; set; } = string.Empty;
 
-        public bool IsSmoker { get; set; }
-        public bool IsAlcoholUser { get; set; }
-        public bool HasOrthodontic { get; set; }
-        public bool IsBruxizim { get; set; }
+    public bool IsSmoker { get; set; }
+    public bool IsAlcoholUser { get; set; }
+    public bool HasOrthodontic { get; set; }
+    public bool IsBruxism { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 
-        // Navigation
-        public ICollection<Alarm> Alarms { get; set; }
-        public ICollection<BrushLog> BrushLogs { get; set; }
-        public Setting Setting { get; set; }
-    }
+    public ICollection<Alarm> Alarms { get; set; } = new List<Alarm>();
+    public ICollection<BrushLog> BrushLogs { get; set; } = new List<BrushLog>();
+    public Setting? Setting { get; set; }
 }

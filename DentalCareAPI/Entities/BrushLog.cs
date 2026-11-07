@@ -1,15 +1,13 @@
-﻿namespace DentalCareAPI.Entities
+namespace DentalCareAPI.Entities;
+
+public class BrushLog
 {
-    public class BrushLog
-    {
-        public int Id { get; set; }
-        public int UserId { get; set; }
+    public int Id { get; set; }
+    public int UserId { get; set; }
 
-        public DateTime Date { get; set; }
-        public int DurationInSeconds { get; set; }
-        public string Notes { get; set; }
+    public DateTime Date { get; set; }
+    public int DurationInSeconds { get; set; }
+    public string Notes { get; set; } = string.Empty;
 
-        // Navigation
-        public User User { get; set; }
-    }
+    public User User { get; set; } = null!;
 }

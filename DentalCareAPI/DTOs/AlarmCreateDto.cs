@@ -1,4 +1,6 @@
-﻿public class AlarmCreateDto
+namespace DentalCareAPI.DTOs;
+
+public class AlarmCreateDto
 {
     public int UserId { get; set; }
     public TimeSpan Time { get; set; }
@@ -10,5 +12,5 @@
     public bool RepeatSaturday { get; set; }
     public bool RepeatSunday { get; set; }
     public bool IsActive { get; set; }
-    public string Label { get; set; }
+    public string Label { get; set; } = string.Empty;
 }

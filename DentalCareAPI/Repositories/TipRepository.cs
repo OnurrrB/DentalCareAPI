@@ -1,21 +1,20 @@
-﻿using DentalCareAPI.Entities;
+using DentalCareAPI.Data;
+using DentalCareAPI.Entities;
 using DentalCareAPI.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace DentalCareAPI.Repositories
 {
     public class TipRepository : ITipRepository
     {
-        private readonly AppDbContext.AppDbContext _context;
+        private readonly AppDbContext _context;
 
-        public TipRepository(AppDbContext.AppDbContext context)
+        public TipRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        public async Task<Tip> GetTipByIdAsync(int id)
+        public async Task<Tip?> GetTipByIdAsync(int id)
         {
             return await _context.Tips.FindAsync(id);
         }

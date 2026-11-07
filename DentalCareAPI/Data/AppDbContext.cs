@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using DentalCareAPI.Entities;
 
-namespace DentalCareAPI.AppDbContext
+namespace DentalCareAPI.Data
 {
     public class AppDbContext : DbContext
     {
@@ -15,19 +15,16 @@ namespace DentalCareAPI.AppDbContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // User - Setting: birebir
             modelBuilder.Entity<User>()
                 .HasOne(u => u.Setting)
                 .WithOne(s => s.User)
                 .HasForeignKey<Setting>(s => s.UserId);
 
-            // User - Alarms: bire-çok
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Alarms)
                 .WithOne(a => a.User)
                 .HasForeignKey(a => a.UserId);
 
-            // User - BrushLogs: bire-çok
             modelBuilder.Entity<User>()
                 .HasMany(u => u.BrushLogs)
                 .WithOne(b => b.User)

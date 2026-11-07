@@ -1,7 +1,7 @@
-﻿using AutoMapper;
 using DentalCareAPI.DTOs;
 using DentalCareAPI.Entities;
 using DentalCareAPI.Interfaces;
+using DentalCareAPI.Mappings;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DentalCareAPI.Controllers
@@ -11,12 +11,10 @@ namespace DentalCareAPI.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
-        private readonly IMapper _mapper;
 
-        public UserController(IUserRepository userRepository, IMapper mapper)
+        public UserController(IUserRepository userRepository)
         {
             _userRepository = userRepository;
-            _mapper = mapper;
         }
 
         // GET: api/User
@@ -24,7 +22,7 @@ namespace DentalCareAPI.Controllers
         public async Task<ActionResult<IEnumerable<UserCreateDto>>> GetUsers()
         {
             var users = await _userRepository.GetAllUsersAsync();
-            var usersDto = _mapper.Map<IEnumerable<UserCreateDto>>(users);
+            var usersDto = users.Select(u => u.ToDto());
             return Ok(usersDto);
         }
 
@@ -34,19 +32,19 @@ namespace DentalCareAPI.Controllers
         {
             var user = await _userRepository.GetUserByIdAsync(id);
             if (user == null) return NotFound();
-            return Ok(_mapper.Map<UserCreateDto>(user));
+            return Ok(user.ToDto());
         }
 
         // POST: api/User
         [HttpPost]
         public async Task<ActionResult<UserCreateDto>> CreateUser(UserCreateDto userCreateDto)
         {
-            var user = _mapper.Map<User>(userCreateDto);
+            var user = userCreateDto.ToEntity();
             user.CreatedAt = DateTime.UtcNow;
 
             await _userRepository.AddUserAsync(user);
 
-            var userDto = _mapper.Map<UserCreateDto>(user);
+            var userDto = user.ToDto();
             return CreatedAtAction(nameof(GetUser), new { id = user.Id }, userDto);
         }
 
@@ -57,7 +55,7 @@ namespace DentalCareAPI.Controllers
             var user = await _userRepository.GetUserByIdAsync(id);
             if (user == null) return NotFound();
 
-            _mapper.Map(userDto, user);
+            user.Apply(userDto);
             await _userRepository.UpdateUserAsync(user);
 
             return NoContent();

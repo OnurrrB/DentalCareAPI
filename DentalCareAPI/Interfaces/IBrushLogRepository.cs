@@ -1,12 +1,10 @@
-﻿using DentalCareAPI.Entities;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using DentalCareAPI.Entities;
 
 namespace DentalCareAPI.Interfaces
 {
     public interface IBrushLogRepository
     {
-        Task<BrushLog> GetBrushLogByIdAsync(int id);
+        Task<BrushLog?> GetBrushLogByIdAsync(int id);
         Task<IEnumerable<BrushLog>> GetBrushLogsByUserIdAsync(int userId);
         Task AddBrushLogAsync(BrushLog brushLog);
         Task UpdateBrushLogAsync(BrushLog brushLog);
