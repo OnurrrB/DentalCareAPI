@@ -8,7 +8,7 @@ public static class BrushLogMappings
     public static BrushLog ToEntity(this BrushLogCreateDto dto) => new()
     {
         UserId = dto.UserId,
-        Date = dto.Date,
+        BrushedAt = dto.BrushedAt,
         DurationInSeconds = dto.DurationInSeconds,
         Notes = dto.Notes,
     };

@@ -7,7 +7,6 @@ namespace DentalCareAPI.Interfaces
         Task<BrushLog?> GetBrushLogByIdAsync(int id);
         Task<IEnumerable<BrushLog>> GetBrushLogsByUserIdAsync(int userId);
         Task AddBrushLogAsync(BrushLog brushLog);
-        Task UpdateBrushLogAsync(BrushLog brushLog);
         Task DeleteBrushLogAsync(int id);
     }
 }

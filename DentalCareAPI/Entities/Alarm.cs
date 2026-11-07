@@ -5,7 +5,7 @@ public class Alarm
     public int Id { get; set; }
     public int UserId { get; set; }
 
-    public TimeSpan Time { get; set; }
+    public TimeOnly Time { get; set; }
 
     public bool RepeatMonday { get; set; }
     public bool RepeatTuesday { get; set; }

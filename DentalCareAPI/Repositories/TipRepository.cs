@@ -3,47 +3,24 @@ using DentalCareAPI.Entities;
 using DentalCareAPI.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace DentalCareAPI.Repositories
+namespace DentalCareAPI.Repositories;
+
+public class TipRepository : ITipRepository
 {
-    public class TipRepository : ITipRepository
+    private readonly AppDbContext _context;
+
+    public TipRepository(AppDbContext context)
     {
-        private readonly AppDbContext _context;
+        _context = context;
+    }
 
-        public TipRepository(AppDbContext context)
-        {
-            _context = context;
-        }
+    public async Task<Tip?> GetTipByIdAsync(int id)
+    {
+        return await _context.Tips.AsNoTracking().FirstOrDefaultAsync(t => t.Id == id);
+    }
 
-        public async Task<Tip?> GetTipByIdAsync(int id)
-        {
-            return await _context.Tips.FindAsync(id);
-        }
-
-        public async Task<IEnumerable<Tip>> GetAllTipsAsync()
-        {
-            return await _context.Tips.ToListAsync();
-        }
-
-        public async Task AddTipAsync(Tip tip)
-        {
-            await _context.Tips.AddAsync(tip);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdateTipAsync(Tip tip)
-        {
-            _context.Tips.Update(tip);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteTipAsync(int id)
-        {
-            var tip = await GetTipByIdAsync(id);
-            if (tip != null)
-            {
-                _context.Tips.Remove(tip);
-                await _context.SaveChangesAsync();
-            }
-        }
+    public async Task<IEnumerable<Tip>> GetAllTipsAsync()
+    {
+        return await _context.Tips.AsNoTracking().OrderBy(t => t.Id).ToListAsync();
     }
 }

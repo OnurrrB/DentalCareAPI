@@ -3,9 +3,13 @@ namespace DentalCareAPI.Entities;
 public class User
 {
     public int Id { get; set; }
+
+    public string Email { get; set; } = string.Empty;
+    public string PasswordHash { get; set; } = string.Empty;
+
     public string Name { get; set; } = string.Empty;
     public int Age { get; set; }
-    public string Gender { get; set; } = string.Empty;
+    public Gender Gender { get; set; }
 
     public bool IsSmoker { get; set; }
     public bool IsAlcoholUser { get; set; }

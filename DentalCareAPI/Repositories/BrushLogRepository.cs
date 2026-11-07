@@ -32,12 +32,6 @@ namespace DentalCareAPI.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateBrushLogAsync(BrushLog brushLog)
-        {
-            _context.BrushLogs.Update(brushLog);
-            await _context.SaveChangesAsync();
-        }
-
         public async Task DeleteBrushLogAsync(int id)
         {
             var brushLog = await GetBrushLogByIdAsync(id);
