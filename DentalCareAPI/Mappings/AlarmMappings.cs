@@ -5,18 +5,34 @@ namespace DentalCareAPI.Mappings;
 
 public static class AlarmMappings
 {
-    public static Alarm ToEntity(this AlarmCreateDto dto) => new()
+    public static Alarm ToEntity(this AlarmCreateDto dto, int userId) =>
+        new Alarm { UserId = userId }.Apply(dto);
+
+    public static Alarm Apply(this Alarm alarm, AlarmWriteDto dto)
     {
-        UserId = dto.UserId,
-        Time = dto.Time,
-        RepeatMonday = dto.RepeatMonday,
-        RepeatTuesday = dto.RepeatTuesday,
-        RepeatWednesday = dto.RepeatWednesday,
-        RepeatThursday = dto.RepeatThursday,
-        RepeatFriday = dto.RepeatFriday,
-        RepeatSaturday = dto.RepeatSaturday,
-        RepeatSunday = dto.RepeatSunday,
-        IsActive = dto.IsActive,
-        Label = dto.Label,
-    };
+        alarm.Time = dto.Time;
+        alarm.RepeatMonday = dto.RepeatMonday;
+        alarm.RepeatTuesday = dto.RepeatTuesday;
+        alarm.RepeatWednesday = dto.RepeatWednesday;
+        alarm.RepeatThursday = dto.RepeatThursday;
+        alarm.RepeatFriday = dto.RepeatFriday;
+        alarm.RepeatSaturday = dto.RepeatSaturday;
+        alarm.RepeatSunday = dto.RepeatSunday;
+        alarm.IsActive = dto.IsActive;
+        alarm.Label = dto.Label;
+        return alarm;
+    }
+
+    public static AlarmResponse ToResponse(this Alarm alarm) => new(
+        alarm.Id,
+        alarm.Time,
+        alarm.RepeatMonday,
+        alarm.RepeatTuesday,
+        alarm.RepeatWednesday,
+        alarm.RepeatThursday,
+        alarm.RepeatFriday,
+        alarm.RepeatSaturday,
+        alarm.RepeatSunday,
+        alarm.IsActive,
+        alarm.Label);
 }

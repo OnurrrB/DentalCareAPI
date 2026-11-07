@@ -1,12 +1,11 @@
 using DentalCareAPI.Entities;
 
-namespace DentalCareAPI.Interfaces
+namespace DentalCareAPI.Interfaces;
+
+public interface IBrushLogRepository
 {
-    public interface IBrushLogRepository
-    {
-        Task<BrushLog?> GetBrushLogByIdAsync(int id);
-        Task<IEnumerable<BrushLog>> GetBrushLogsByUserIdAsync(int userId);
-        Task AddBrushLogAsync(BrushLog brushLog);
-        Task DeleteBrushLogAsync(int id);
-    }
+    Task<BrushLog?> GetBrushLogByIdAsync(int id);
+    Task<(IReadOnlyList<BrushLog> Items, int TotalCount)> GetBrushLogsByUserIdAsync(int userId, int page, int pageSize);
+    Task AddBrushLogAsync(BrushLog brushLog);
+    Task<bool> DeleteBrushLogAsync(int id);
 }

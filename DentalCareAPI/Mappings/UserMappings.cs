@@ -5,9 +5,7 @@ namespace DentalCareAPI.Mappings;
 
 public static class UserMappings
 {
-    public static User ToEntity(this UserCreateDto dto) => new User().Apply(dto);
-
-    public static User Apply(this User user, UserCreateDto dto)
+    public static User Apply(this User user, UserUpdateDto dto)
     {
         user.Name = dto.Name;
         user.Age = dto.Age;
@@ -19,14 +17,15 @@ public static class UserMappings
         return user;
     }
 
-    public static UserCreateDto ToDto(this User user) => new()
-    {
-        Name = user.Name,
-        Age = user.Age,
-        Gender = user.Gender,
-        IsSmoker = user.IsSmoker,
-        IsAlcoholUser = user.IsAlcoholUser,
-        HasOrthodontic = user.HasOrthodontic,
-        IsBruxism = user.IsBruxism,
-    };
+    public static UserResponse ToResponse(this User user) => new(
+        user.Id,
+        user.Email,
+        user.Name,
+        user.Age,
+        user.Gender,
+        user.IsSmoker,
+        user.IsAlcoholUser,
+        user.HasOrthodontic,
+        user.IsBruxism,
+        user.CreatedAt);
 }

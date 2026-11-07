@@ -19,38 +19,38 @@ namespace DentalCareAPI.Controllers
 
         // GET: api/User
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserCreateDto>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserResponse>>> GetUsers()
         {
             var users = await _userRepository.GetAllUsersAsync();
-            var usersDto = users.Select(u => u.ToDto());
+            var usersDto = users.Select(u => u.ToResponse());
             return Ok(usersDto);
         }
 
         // GET: api/User/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserCreateDto>> GetUser(int id)
+        public async Task<ActionResult<UserResponse>> GetUser(int id)
         {
             var user = await _userRepository.GetUserByIdAsync(id);
             if (user == null) return NotFound();
-            return Ok(user.ToDto());
+            return Ok(user.ToResponse());
         }
 
         // POST: api/User
         [HttpPost]
-        public async Task<ActionResult<UserCreateDto>> CreateUser(UserCreateDto userCreateDto)
+        public async Task<ActionResult<UserResponse>> CreateUser(UserCreateDto userCreateDto)
         {
-            var user = userCreateDto.ToEntity();
+            var user = new User().Apply(userCreateDto);
             user.CreatedAt = DateTime.UtcNow;
 
             await _userRepository.AddUserAsync(user);
 
-            var userDto = user.ToDto();
+            var userDto = user.ToResponse();
             return CreatedAtAction(nameof(GetUser), new { id = user.Id }, userDto);
         }
 
         // PUT: api/User/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, UserCreateDto userDto)
+        public async Task<IActionResult> UpdateUser(int id, UserUpdateDto userDto)
         {
             var user = await _userRepository.GetUserByIdAsync(id);
             if (user == null) return NotFound();
@@ -65,8 +65,7 @@ namespace DentalCareAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            await _userRepository.DeleteUserAsync(id);
-            return NoContent();
+            return await _userRepository.DeleteUserAsync(id) ? NoContent() : NotFound();
         }
     }
 }

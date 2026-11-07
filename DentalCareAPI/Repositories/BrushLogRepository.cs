@@ -3,43 +3,47 @@ using DentalCareAPI.Entities;
 using DentalCareAPI.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace DentalCareAPI.Repositories
+namespace DentalCareAPI.Repositories;
+
+public class BrushLogRepository : IBrushLogRepository
 {
-    public class BrushLogRepository : IBrushLogRepository
+    private readonly AppDbContext _context;
+
+    public BrushLogRepository(AppDbContext context)
     {
-        private readonly AppDbContext _context;
+        _context = context;
+    }
 
-        public BrushLogRepository(AppDbContext context)
-        {
-            _context = context;
-        }
+    public async Task<BrushLog?> GetBrushLogByIdAsync(int id)
+    {
+        return await _context.BrushLogs.AsNoTracking().FirstOrDefaultAsync(b => b.Id == id);
+    }
 
-        public async Task<BrushLog?> GetBrushLogByIdAsync(int id)
-        {
-            return await _context.BrushLogs.FindAsync(id);
-        }
+    public async Task<(IReadOnlyList<BrushLog> Items, int TotalCount)> GetBrushLogsByUserIdAsync(
+        int userId, int page, int pageSize)
+    {
+        var query = _context.BrushLogs.AsNoTracking().Where(b => b.UserId == userId);
 
-        public async Task<IEnumerable<BrushLog>> GetBrushLogsByUserIdAsync(int userId)
-        {
-            return await _context.BrushLogs
-                .Where(bl => bl.UserId == userId)
-                .ToListAsync();
-        }
+        var totalCount = await query.CountAsync();
+        var items = await query
+            .OrderByDescending(b => b.BrushedAt)
+            .ThenByDescending(b => b.Id)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
 
-        public async Task AddBrushLogAsync(BrushLog brushLog)
-        {
-            await _context.BrushLogs.AddAsync(brushLog);
-            await _context.SaveChangesAsync();
-        }
+        return (items, totalCount);
+    }
 
-        public async Task DeleteBrushLogAsync(int id)
-        {
-            var brushLog = await GetBrushLogByIdAsync(id);
-            if (brushLog != null)
-            {
-                _context.BrushLogs.Remove(brushLog);
-                await _context.SaveChangesAsync();
-            }
-        }
+    public async Task AddBrushLogAsync(BrushLog brushLog)
+    {
+        _context.BrushLogs.Add(brushLog);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<bool> DeleteBrushLogAsync(int id)
+    {
+        var deleted = await _context.BrushLogs.Where(b => b.Id == id).ExecuteDeleteAsync();
+        return deleted > 0;
     }
 }

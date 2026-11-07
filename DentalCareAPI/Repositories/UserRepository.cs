@@ -19,7 +19,7 @@ namespace DentalCareAPI.Repositories
             return await _context.Users.FindAsync(id);
         }
 
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        public async Task<IReadOnlyList<User>> GetAllUsersAsync()
         {
             return await _context.Users.ToListAsync();
         }
@@ -32,18 +32,13 @@ namespace DentalCareAPI.Repositories
 
         public async Task UpdateUserAsync(User user)
         {
-            _context.Users.Update(user);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteUserAsync(int id)
+        public async Task<bool> DeleteUserAsync(int id)
         {
-            var user = await GetUserByIdAsync(id);
-            if (user != null)
-            {
-                _context.Users.Remove(user);
-                await _context.SaveChangesAsync();
-            }
+            var deleted = await _context.Users.Where(u => u.Id == id).ExecuteDeleteAsync();
+            return deleted > 0;
         }
     }
 }

@@ -18,7 +18,7 @@ namespace DentalCareAPI.Controllers
 
         // POST: api/setting
         [HttpPost]
-        public async Task<IActionResult> CreateOrUpdateSetting([FromBody] SettingCreateOrUpdateDto dto)
+        public async Task<IActionResult> CreateOrUpdateSetting([FromBody] SettingUpdateDto dto)
         {
             var existingSetting = await _settingRepository.GetSettingByUserIdAsync(dto.UserId);
 
@@ -26,7 +26,7 @@ namespace DentalCareAPI.Controllers
             {
                 var setting = new Setting { UserId = dto.UserId, Language = dto.Language };
                 await _settingRepository.AddSettingAsync(setting);
-                return CreatedAtAction(nameof(GetSetting), new { userId = setting.UserId }, setting);
+                return CreatedAtAction(nameof(GetSetting), new { userId = setting.UserId }, new SettingResponse(setting.Language));
             }
             else
             {
@@ -44,7 +44,7 @@ namespace DentalCareAPI.Controllers
             if (setting == null)
                 return NotFound();
 
-            return Ok(setting);
+            return Ok(new SettingResponse(setting.Language));
         }
 
         // DELETE: api/setting/{userId}
